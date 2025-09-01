@@ -14,14 +14,15 @@ import com.google.android.material.textfield.TextInputEditText
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private const val COLOR_KEY = "COLOR_KEY"
-        private const val ERROR_KEY = "ERROR_KEY"
+        const val COLOR_KEY = "COLOR_KEY"
+        const val ERROR_KEY = "ERROR_KEY"
     }
 
-    private val submitButton: Button
-        get() = findViewById(R.id.submit_button)
+    // ✅ deklarasi variabel tombol & input
+    private lateinit var submitButton: Button
+    private lateinit var colorCodeInput: TextInputEditText
 
-    // ✅ listener untuk menerima hasil dari ResultActivity
+    // listener untuk menerima hasil dari ResultActivity
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
             val data = activityResult.data
@@ -38,11 +39,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_result)   // ⚠️ seharusnya activity_main.xml, bukan activity_result
+
+        setContentView(R.layout.activity_main)
+
+        submitButton = findViewById(R.id.submit_button)
+        colorCodeInput = findViewById(R.id.color_code_input_field)
 
         submitButton.setOnClickListener {
-            val colorCode =
-                findViewById<TextInputEditText>(R.id.color_code_input_field).text.toString()
+            val colorCode = colorCodeInput.text.toString()
 
             if (colorCode.isNotEmpty()) {
                 if (colorCode.length < 6) {

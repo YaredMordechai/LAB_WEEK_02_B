@@ -7,37 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".MainActivity">
-
-    <!-- Input field untuk kode warna -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/color_code_input_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/submit_button">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/color_code_input_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter color code"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Tombol submit -->
-    <Button
-        android:id="@+id/submit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        app:layout_constraintTop_toBottomOf="@id/color_code_input_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@id/color_code_result_message"/>
+    tools:context=".ResultActivity">
 
     <!-- Hasil kode warna -->
     <TextView
@@ -46,8 +16,22 @@
         android:layout_height="wrap_content"
         android:text="Result will appear here"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/submit_button"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_back"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Tombol Back (sudah digabung atributnya) -->
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/color_code_result_message"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
