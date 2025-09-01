@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,16 +14,31 @@ import com.google.android.material.textfield.TextInputEditText
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        const val COLOR_KEY = "COLOR_KEY"
+        private const val COLOR_KEY = "COLOR_KEY"
+        private const val ERROR_KEY = "ERROR_KEY"
     }
 
     private val submitButton: Button
         get() = findViewById(R.id.submit_button)
 
+    // ✅ listener untuk menerima hasil dari ResultActivity
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            val data = activityResult.data
+            val error = data?.getBooleanExtra(ERROR_KEY, false)
+            if (error == true) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.color_code_input_invalid),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_result)   // ✅ pakai activity_result.xml
+        setContentView(R.layout.activity_result)   // ⚠️ seharusnya activity_main.xml, bukan activity_result
 
         submitButton.setOnClickListener {
             val colorCode =
@@ -38,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     val resultIntent = Intent(this, ResultActivity::class.java)
                     resultIntent.putExtra(COLOR_KEY, colorCode)
-                    startActivity(resultIntent)
+                    startForResult.launch(resultIntent)
                 }
             } else {
                 Toast.makeText(
@@ -49,7 +65,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // padding untuk status/navigation bar
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.background_screen)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
